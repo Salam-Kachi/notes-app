@@ -1,6 +1,15 @@
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [creating, setCreating] = useState(false);
+  const [editing, setEditing] = useState(false);
+
+
   const getAddNote = () => {
     return (
       <div>
