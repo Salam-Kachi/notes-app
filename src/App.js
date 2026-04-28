@@ -2,6 +2,9 @@ import { useState } from "react";
 import "./App.css";
 import Preview from "./components/Preview";
 import Message from "./components/Message";
+import NotesContainer from "./components/Notes/NotesContainer";
+import NotesList from "./components/Notes/NotesList";
+import Note from "./components/Notes/Note";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -34,6 +37,12 @@ function App() {
     setSelectedNote(note.id);
     setTitle("");
     setContent("");
+  };
+
+  // اختيار ملاحظة لعرضها
+  const selectedNoteHandler = (noteId) => {
+    setSelectedNote(noteId);
+    setCreating(false);
   };
 
   const getAddNote = () => {
@@ -100,17 +109,21 @@ function App() {
   };
   return (
     <div className="App">
-      <div className="notes-section">
-        <ul className="notes-list">
-          <li className="note-item">ملاحظة رقم #1</li>
-          <li className="note-item">ملاحظة رقم #2</li>
-          <li className="note-item">ملاحظة رقم #3</li>
-          <li className="note-item">ملاحظة رقم #4</li>
-        </ul>
+      <NotesContainer>
+        <NotesList>
+          {notes.map((note) => (
+            <Note
+              key={note.id}
+              title={note.title}
+              noteClicked={() => selectedNoteHandler(note.id)}
+              active = {selectedNote === note.id}
+            />
+          ))}
+        </NotesList>
         <button className="add-btn" onClick={addNoteHandler}>
           +
         </button>
-      </div>
+      </NotesContainer>
       <Preview>{creating ? getAddNote() : getPreview()}</Preview>
     </div>
   );
